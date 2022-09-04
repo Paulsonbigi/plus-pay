@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import { promisify } from 'util';
 
 export const SEQUELIZE = 'SequelizeToken';
-// export const WALLET_REPO = 'WalletRepository';
+export const USER_REPO = 'userRepository';
 
 export const CURRENCY = ['ngn', 'gbp'];
 
