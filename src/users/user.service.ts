@@ -12,7 +12,6 @@ export class UserService {
 
     async createUser(req: Request, dto: CreateUserDTO) {
         try {
-            
 
             // return { code: status, message: 'User created', data };
         } catch (error) {
