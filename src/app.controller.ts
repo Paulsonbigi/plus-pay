@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
-// import { AppService } from './app.service';
+import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import env from './config/env';
+import { response } from './utils/response';
 
 @Controller()
 export class AppController {
-  // constructor(private readonly appService: AppService) {}
-
-  // @Get()
-  // getHello(): string {
-  //   // return this.appService.getHello();
-  // }
+  @Get('/')
+  getHomeRuote(@Res() res) {
+    return response(res, {
+      code: HttpStatus.OK,
+      message: `Welcome to ${env.app_name}`,
+      data: {},
+    });
+  };
 }

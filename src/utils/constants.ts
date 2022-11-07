@@ -3,6 +3,7 @@ import { promisify } from 'util';
 
 export const SEQUELIZE = 'SequelizeToken';
 export const USER_REPO = 'userRepository';
+export const ADDRESS_REPO = 'addressRepository';
 
 export const CURRENCY = ['ngn', 'gbp'];
 

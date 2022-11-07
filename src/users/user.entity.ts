@@ -1,52 +1,45 @@
 import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, DeletedAt } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize';
 
-@Table({timestamps: true, tableName: 'tbl_crypto'})
+@Table({timestamps: true, tableName: 'Users'})
 export class Users extends Model<Users> {
   @Column({
     type: DataType.UUIDV4,
     autoIncrement: true,
     primaryKey: true,
     unique: true,
-    field: 'ID',
+    field: 'id',
+    defaultValue: require("sequelize").UUIDV4,
   })
   id: number;
 
   @Column
-  firstName: string;
+  first_name: string;
 
   @Column
-  lastName: string;
+  last_name: string;
 
   @Column
   email: string;
 
   @Column
-  address: string;
+  password: string;
 
   @Column
-  city: string;
+  app_id: string;
 
   @Column
-  state: string;
+  registration_device: string;
 
   @Column
-  country: string;
-
-  @Column
-  appId: string;
-
-  @Column
-  registrationDevice: string;
-
-  @Column
-  blackList: boolean;
+  blacklist: boolean;
 
   @CreatedAt
-  creationDate: Date;
+  creation_at: Date;
 
   @UpdatedAt
-  updatedOn: Date;
+  updated_at: Date;
 
   @DeletedAt
-  deletionDate: Date;
+  deleted_at: Date;
 }

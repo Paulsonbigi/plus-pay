@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { SEQUELIZE } from '../utils/constants';
 import { databaseConfig } from './database.config';
+import { Users } from 'src/users/user.entity';
 import env from '../config/env';
 
 export const databaseProviders = [
@@ -21,7 +22,7 @@ export const databaseProviders = [
       const sequelize = new Sequelize(config);
 
     //   models go in here
-    //   sequelize.addModels([ Wallet, Crypto ]);
+      sequelize.addModels([ Users ]);
 
       await sequelize.sync();
       return sequelize;
