@@ -28,6 +28,8 @@ export class UserService {
         try {
             const { email, password, app_id }: userLoginInterface = req.body;
             let user = await Users.findOne({ where: { email }})
+            // login token generation
+            // login token generation
             console.log("HashedPassword...", password)
 
             return { code: HttpStatus.OK, message: 'User logged in', data: { user } };
