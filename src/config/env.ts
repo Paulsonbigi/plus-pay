@@ -22,6 +22,7 @@ const env = {
     salt_rounds: Number(process.env.SALT_ROUNDS) || 10,
     jwt_secret: String(process.env.JWT_SECRET),
     jwt_expiry: String(process.env.JWT_EXPIRY),
+    salt_round: Number(process.env.SALT_ROUNDS),
 };
 
 export default env;
