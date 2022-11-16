@@ -34,10 +34,12 @@ export class UserLoginMiddleware implements NestMiddleware {
             password, hasPassword: user.password
         }
         let comparePassword: boolean = await decryptPassword(value)
-        console.log("email, app_id, password.........", comparePassword)
 
         if(!comparePassword){
             return response(res, { code: HttpStatus.UNAUTHORIZED, message: 'Invalid password.', data: { } })
+        }
+        if(user.blacklist){
+            return response(res, { code: HttpStatus.FORBIDDEN, message: 'Account has been blocked.', data: { } })
         }
         // let userByAppId = await Users.findOne({
         //     where: { email: email.toLowerCase(), app_id }

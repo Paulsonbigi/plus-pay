@@ -24,3 +24,7 @@ export const currencyToCountryCode = (currency: string) => {
             return 'NG';
     }
 };
+
+export const jwtConstants = {
+    secret: 'secretKey',
+  };
