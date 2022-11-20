@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, DeletedAt } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, DeletedAt, BelongsTo } from 'sequelize-typescript';
+import { Users } from 'src/users/user.entity';
 
 @Table({timestamps: true, tableName: 'Address'})
 export class Address extends Model<Address> {
@@ -11,8 +12,12 @@ export class Address extends Model<Address> {
   })
   id: number;
 
-  @Column
-  userId: string;
+  @Column({
+    type: DataType.UUIDV4,
+    unique: true,
+    field: 'userId',
+  })
+  userId: number;
 
   @Column
   street: string;
@@ -29,15 +34,19 @@ export class Address extends Model<Address> {
   @Column
   region: string;
 
-  @Column
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'active',
+    defaultValue: false,
+  })
   active: boolean;
 
   @CreatedAt
-  creationDate: Date;
+  creation_date: Date;
 
   @UpdatedAt
-  updatedOn: Date;
+  updated_on: Date;
 
   @DeletedAt
-  deletionDate: Date;
+  deletion_date: Date;
 }

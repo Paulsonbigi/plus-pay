@@ -1,18 +1,21 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { Request } from 'express';
-import { CreateUserDTO, LoginUserDTO } from '../dto/user.dto';
+import { CreateUserDTO, LoginUserDTO, UserSecondRegistrationDTO } from '../dto/user.dto';
 import env from '../../config/env';
 import { Users } from '../user.entity';
+import { Address } from 'src/address/address.entity';
 import { HashPassword } from 'src/utils/encryption';
-import { userRegisterInterface, userLoginInterface } from '../interface/user.interface';
+import { userRegisterInterface, userLoginInterface, UserSecondRegistrationInterface } from '../interface/user.interface';
 import { JwtService } from '@nestjs/jwt';
+import { AddressService } from 'src/address/address.service';
 
 @Injectable()
 export class UserService {
     constructor(
         private httpService: HttpService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private addressService: AddressService
     ) {}
 
     async createUser(req: Request, dto: CreateUserDTO) {
@@ -65,6 +68,42 @@ export class UserService {
             // login token generation
             // send send an email to the user for successful login
             return { code: HttpStatus.OK, message: 'Logged successfully.', data: { user } };
+
+        } catch (error) {
+            return { code: HttpStatus.INTERNAL_SERVER_ERROR, message: 'there was a problem', error: error.toString(), data: {} };
+        }
+    };
+
+    async allUsers(req: Request) {
+        try {
+
+            let user = await Users.findAll()
+
+            // login token generation
+            // send send an email to the user for successful login
+            return { code: HttpStatus.OK, message: 'Logged successfully.', data: { user } };
+
+        } catch (error) {
+            return { code: HttpStatus.INTERNAL_SERVER_ERROR, message: 'there was a problem', error: error.toString(), data: {} };
+        }
+    };
+
+    async stepTwoRegistration(req: Request, dto: UserSecondRegistrationDTO) {
+        try {
+            const { first_name, last_name, street, lga, state, region, country, phone_number }: UserSecondRegistrationInterface = req.body;
+            let user = await Users.findOne({ where: { id: req.user['_id'] }})
+            user.first_name=first_name;
+            user.last_name=last_name;
+            user.phone_number=phone_number;
+            await this.addressService.createAddress({ street, lga, state, region, country })
+            console.log("street, lga, state, region, country, phone_number")
+            await user.save();
+            
+            await user.save();
+
+            // login token generation
+            // send send an email to the user for successful login
+            return { code: HttpStatus.OK, message: 'User updated successfully.', data: { user } };
 
         } catch (error) {
             return { code: HttpStatus.INTERNAL_SERVER_ERROR, message: 'there was a problem', error: error.toString(), data: {} };

@@ -4,6 +4,7 @@ import { Request } from 'express';
 // import { CreateUserDTO } from './dto/user.dto';
 import env from '../config/env';
 import { Address } from './address.entity';
+import { AddressInterface } from './addressInterface';
 
 @Injectable()
 export class AddressService {
@@ -11,12 +12,13 @@ export class AddressService {
         private httpService: HttpService,
     ) {}
 
-    async createUser(req: Request, dto) {
+    async createAddress(dto: AddressInterface) {
         try {
-            const { email, password, registrationDevice } = req.body;
 
-            await this.emailExitsValidator(email)
-            return { code: 200, message: 'User created', data: {email, password, registrationDevice } };
+            await Address.create({
+               ...dto
+            })
+            return { code: 200, message: 'User created' };
         } catch (error) {
             console.log("okay failing....", error)
             return { code: HttpStatus.INTERNAL_SERVER_ERROR, message: 'there was a problem', data: {} };

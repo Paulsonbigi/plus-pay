@@ -5,7 +5,7 @@ import { Users } from '../user.entity';
 import { response } from 'src/utils/response';
 import { decryptPassword } from 'src/utils/encryption';
 import { passwordDecryptInterface } from 'src/utils/interface';
-import { userLoginInterface } from '../interface/user.interface';
+import { userLoginInterface, UserSecondRegistrationInterface } from '../interface/user.interface';
 
 @Injectable()
 export class UserCreationMiddleware implements NestMiddleware {
@@ -46,6 +46,20 @@ export class UserLoginMiddleware implements NestMiddleware {
         // })
         // check if a user is trying to login with a different device
         // send a notification email
+        next();
+    }
+}
+
+
+export class StepTwoMiddleware implements NestMiddleware {
+    async use(req: Request, res: Response, next: NextFunction) {
+        const { phone_number }: UserSecondRegistrationInterface = req.body;
+        let user = await Users.findOne({
+            where: { phone_number }
+        })
+        if(user){
+            return response(res, { code: HttpStatus.UNAUTHORIZED, message: 'Phone number already in use.', data: { } })
+        }
         next();
     }
 }

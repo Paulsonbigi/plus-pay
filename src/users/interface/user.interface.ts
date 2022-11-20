@@ -10,3 +10,15 @@ export interface userLoginInterface  {
     password: string;
     app_id: string;
 }
+
+export interface UserSecondRegistrationInterface {
+    first_name: string,
+    last_name: string;
+    street: string;
+    lga: string;
+    state: string;
+    phone_number: string;
+    country: string;
+    region?: string;
+
+}
